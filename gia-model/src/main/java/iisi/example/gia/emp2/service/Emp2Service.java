@@ -22,12 +22,6 @@ public class Emp2Service {
     @Autowired
     private Emp2DAO emp2DAO;
 
-    @Autowired
-    private JobLauncher jobLauncher;
-
-    @Autowired
-    private Job exportEmpJob;
-
     // INSERT
     @Transactional
     public int addEmp(Emp2AddDTO empAddDTO){
@@ -202,17 +196,6 @@ public class Emp2Service {
     // SELECT Jobs (給搜尋下拉式選單使用)
     public Set<String> listJobs(){
         return emp2DAO.listJobs();
-    }
-
-    // ExportEmp
-    public JobExecution exportJob() throws Exception{
-        // 創建 Job 參數
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("time", System.currentTimeMillis())
-                .toJobParameters();
-
-        // 執行 Job 並回傳執行結果
-        return jobLauncher.run(exportEmpJob, jobParameters);
     }
 
 }

@@ -39,7 +39,7 @@
     </bean>
 
     <!-- 定義 processor -->
-    <bean id="empProcessor" class="iisi.example.gia.config.EmpItemProcessor" scope="step">
+    <bean id="empProcessor" class="iisi.example.gia.task.EmpItemProcessor" scope="step">
         <aop:scoped-proxy/>
     </bean>
 
@@ -47,7 +47,7 @@
     <bean id="empWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
         <aop:scoped-proxy/>
         <!-- 設定檔案輸出路徑，使用 Spring EL 表達式讀取常數類別中的值 -->
-        <property name="resource" value="file:#{T(iisi.example.gia.config.BatchConstants).EXPORT_PATH}/emp2_export.csv"/>
+        <property name="resource" value="file:#{T(iisi.example.gia.batchconfig.BatchConstants).EXPORT_PATH}/emp2_export.csv"/>
 
         <!-- 設定檔案編碼 -->
         <property name="encoding" value="UTF-8"/>
@@ -70,7 +70,7 @@
 
         <!-- 設定 CSV 表頭 -->
         <property name="headerCallback">
-            <bean class="iisi.example.gia.config.ExportFlatFileHeaderCallbackImpl">
+            <bean class="iisi.example.gia.batchconfig.ExportFlatFileHeaderCallbackImpl">
                 <property name="header" value="員工編號,員工姓名,職位,到職日,薪資,獎金,部門編號,部門名稱"/>
             </bean>
         </property>

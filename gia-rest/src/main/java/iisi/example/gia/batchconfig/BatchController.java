@@ -1,7 +1,5 @@
-package iisi.example.gia;
+package iisi.example.gia.batchconfig;
 
-import iisi.example.gia.config.BatchConstants;
-import iisi.example.gia.emp2.service.Emp2Service;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +14,7 @@ import java.io.File;
 public class BatchController {
 
     @Autowired
-    private Emp2Service empService;
+    private BatchService batchService;
 
     @PostMapping("exportEmp")
     public ResponseEntity<String> exportEmp(){
@@ -28,7 +26,7 @@ public class BatchController {
                 exportDir.mkdirs();
             }
 
-            JobExecution execution = empService.exportJob();
+            JobExecution execution = batchService.exportJob();
 
             return ResponseEntity.ok("Job 執行狀態: " + execution.getStatus());
         }catch(Exception e){
