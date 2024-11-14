@@ -1,4 +1,4 @@
-package iisi.example.gia.config;
+package iisi.example.gia.batchconfig;
 
 import org.springframework.batch.item.file.FlatFileHeaderCallback;
 import java.io.IOException;

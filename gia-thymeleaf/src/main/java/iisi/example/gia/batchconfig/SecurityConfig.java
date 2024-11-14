@@ -1,4 +1,4 @@
-package iisi.example.gia.config;
+package iisi.example.gia.batchconfig;
 
 import iisi.example.gia.service.GiaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
