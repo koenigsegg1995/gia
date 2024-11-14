@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+
+        #main{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <!-- 導向新增員工 -->
+        <a th:href="@{/emp2/goToAdd}">
+            <button>新增員工</button>
+        </a>
+
+        <!-- 動態查詢區塊 -->
+        <form th:action="@{/emp2/selectEmp}" method="post" th:object="${empSelectReq}">
+            <div>
+                <label>
+                    員編
+                    <input th:field="*{empno}" placeholder="請輸入">
+                </label>
+
+                <label>
+                    姓名
+                    <input th:field="*{ename}" placeholder="請輸入">
+                </label>
+
+                <label>
+                    職位
+                    <select th:field="*{job}">
+                        <option value="">-請選擇-</option>
+                        <option th:each="job : ${jobs}"
+                                th:text="${job}"
+                                th:value="${job}">
+                        </option>
+                    </select>
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    部門
+                    <select th:field="*{dname}">
+                        <option value="">-請選擇-</option>
+                        <option th:each="deptInfo : ${depts}"
+                                th:text="${deptInfo.dname}"
+                                th:value="${deptInfo.dname}">
+                        </option>
+                    </select>
+                </label>
+
+                <label>
+                    雇用日期
+                    <input type="date" th:field="*{startDate}" placeholder="開始日期時間">
+                </label>
+                <span>至</span>
+                <label>
+                    <input type="date" th:field="*{endDate}" placeholder="結束日期時間">
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    薪資
+                    <input th:field="*{bottomSal}">
+                </label>
+                <span>-</span>
+                <label>
+                    <input th:field="*{topSal}">
+                </label>
+
+                <span>
+                    <button type="submit">查詢</button>
+                </span>
+            </div>
+        
+
+            <!-- 顯示查詢結果區塊 -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>員編</th>
+                        <th>姓名</th>
+                        <th>職位</th>
+                        <th>雇用日期</th>
+                        <th>部門</th>
+                        <th>薪資</th>
+                        <th>Operations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="emp : ${empSelectResVO.empSelectRes}">
+                        <td th:text="${emp.empno}"></td>
+                        <td th:text="${emp.ename}"></td>
+                        <td th:text="${emp.job}"></td>
+                        <td th:text="${emp.hiredate}"></td>
+                        <td th:text="${emp.dname}"></td>
+                        <td th:text="${emp.sal}"></td>
+                        <td>
+                            <form th:action="@{/emp2/delete}" method="post" style="display: inline-block;">
+                                <input type="hidden" name="empno" th:value="${emp.empno}">
+                                <button type="submit">delete</button>
+                            </form>
+                            
+                            <form th:action="@{/emp2/goToUpdate}" method="post" style="display: inline-block;">
+                                <input type="hidden" name="empno" th:value="${emp.empno}">
+                                <button type="submit">edit</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(empSelectResVO.empSelectRes)}">
+                        <td colspan="7" style="text-align: center;">查無資料</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- 分頁 -->
+            <div>
+                <!-- 選擇筆數 -->
+                <select th:field="*{limit}" onchange="this.form.submit()">
+                    <option value="5">-請選擇-</option>
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                </select>
+
+                <div>
+                    共 <span th:text="${empSelectResVO.pageInfo.selectEmpsCount}"></span> 筆
+                    第 <span th:text="${empSelectReq.page}"></span> / <span th:text="${empSelectResVO.pageInfo.totalPages}"></span> 頁
+                    <input type="hidden" th:field="*{page}">
+                </div>
+                
+                <button th:if="${empSelectResVO.pageInfo.page > 1}" type="submit" name="pageActions" value="prev">上一頁</button>                
+                
+                <button th:if="${empSelectResVO.pageInfo.page < empSelectResVO.pageInfo.totalPages}" type="submit" name="pageActions" value="next">下一頁</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

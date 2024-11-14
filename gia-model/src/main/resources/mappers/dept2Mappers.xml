@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 對應持久層的介面 -->
+<mapper namespace="iisi.example.gia.dept2.dao.Dept2DAO">
+    <insert id="insert" parameterType="iisi.example.gia.dept2.entity.Dept2DO">
+        INSERT INTO dept2 (
+            dname, loc
+        )
+        VALUES (
+            #{dname}, #{loc}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="integer">
+        DELETE FROM
+            dept2
+        WHERE
+            deptno = #{deptno}
+    </delete>
+
+    <update id="update" parameterType="iisi.example.gia.dept2.entity.Dept2DO">
+        UPDATE
+            dept2
+        SET
+            dname = #{dname}, loc = #{loc}
+        WHERE
+            deptno = #{deptno}
+    </update>
+
+    <select id="selectOne" parameterType="integer" resultType="iisi.example.gia.dept2.entity.Dept2DO">
+        SELECT
+            *
+        FROM dept2
+        WHERE
+            deptno = #{deptno}
+    </select>
+
+    <select id="selectAll" resultType="iisi.example.gia.dept2.entity.Dept2DO">
+        SELECT
+            *
+        FROM dept2
+        ORDER BY
+            deptno
+    </select>
+</mapper>

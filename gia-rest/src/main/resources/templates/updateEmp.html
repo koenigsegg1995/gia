@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>updateEmp</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+
+        #main{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form th:action="@{/emp2/updateEmp}" method="post" th:object="${empUpdateReq}">
+        <input type="hidden" th:field="*{empno}">
+
+        <div>
+            <label>
+                姓名
+                <input th:field="*{ename}" placeholder="請輸入">
+            </label>
+            
+            <label>
+                職位
+                <select th:field="*{job}">
+                    <option value="">-請選擇-</option>
+                    <option th:each="job : ${jobs}"
+                            th:text="${job}"
+                            th:value="${job}">
+                    </option>
+                </select>
+            </label>
+
+            <label>
+                雇用日期
+                <input type="date" th:field="*{hiredate}" placeholder="選擇日期">
+            </label>
+        </div>
+
+        <div>
+            <label>
+                薪水
+                <input th:field="*{sal}" placeholder="請輸入">
+            </label>
+
+            <label>
+                獎金
+                <input th:field="*{comm}" placeholder="請輸入">
+            </label>
+
+            <label>
+                部門
+                <select th:field="*{deptno}">
+                    <option value="">-請選擇-</option>
+                    <option th:each="deptInfo : ${depts}"
+                            th:text="${deptInfo.dname}"
+                            th:value="${deptInfo.deptno}">
+                    </option>
+                </select>
+            </label>
+        </div>
+
+        <div>
+            <a href="/">
+                <button type="button">取消</button>
+            </a>
+            <button type="submit">確定</button>
+        </div>
+    </form>
+</body>
+</html>

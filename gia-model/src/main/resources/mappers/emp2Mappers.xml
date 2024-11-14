@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 對應持久層的介面 -->
+<mapper namespace="iisi.example.gia.emp2.dao.Emp2DAO" >
+    <insert id="insert" parameterType="iisi.example.gia.emp2.entity.Emp2DO">
+        INSERT INTO emp2 (
+            ename, job, hiredate, sal, comm, deptno
+        )
+        VALUES (
+            #{ename}, #{job}, #{hiredate}, #{sal}, #{comm}, #{deptno}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="integer">
+        DELETE FROM
+            emp2
+        WHERE
+            empno = #{empno}
+    </delete>
+
+    <update id="update" parameterType="iisi.example.gia.emp2.entity.Emp2DO">
+        UPDATE
+            emp2
+        SET
+            ename = #{ename}, job = #{job}, sal = #{sal}, comm = #{comm}, deptno = #{deptno}
+        WHERE
+            empno = #{empno}
+    </update>
+
+    <select id="selectOne" parameterType="integer" resultType="iisi.example.gia.emp2.entity.Emp2DO">
+        SELECT
+            *
+        FROM emp2
+        WHERE
+            empno = #{empno}
+    </select>
+
+<!--    <select id="selectAll" resultType="practice.emp2.model.Emp2DO">-->
+<!--        SELECT-->
+<!--            *-->
+<!--        FROM emp2-->
+<!--        ORDER BY-->
+<!--            empno-->
+<!--    </select>-->
+
+    <select id="listJobs" resultType="string">
+        SELECT DISTINCT
+            job
+        FROM emp2
+    </select>
+
+    <select id="selectEmps" parameterType="iisi.example.gia.emp2.dto.Emp2ComplexSelectDTO" resultType="iisi.example.gia.emp2.dto.Emp2WithDnameDTO">
+        SELECT
+            e.empno, e.ename, e.job, e.hiredate, e.sal, d.dname
+        FROM
+            emp2 e
+        LEFT JOIN
+            dept2 d ON e.deptno = d.deptno
+        <where>
+            <if test="empno != null">
+                AND e.empno = #{empno}
+            </if>
+            <if test="ename != null and ename != ''">
+                AND e.ename LIKE CONCAT('%', #{ename}, '%')
+            </if>
+            <if test="job != null and job != ''">
+                AND e.job = #{job}
+            </if>
+            <if test="dname != null and dname != ''">
+                AND d.dname = #{dname}
+            </if>
+            <if test="startDate != null">
+                AND e.hiredate >= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND e.hiredate &lt;= #{endDate}
+            </if>
+            <if test="bottomSal != null">
+                AND e.sal >= #{bottomSal}
+            </if>
+            <if test="topSal != null">
+                AND e.sal &lt;= #{topSal}
+            </if>
+        </where>
+        ORDER BY
+            e.empno
+        LIMIT
+            #{offset}, #{limit}
+    </select>
+
+    <select id="selectEmpsCount" resultType="integer">
+        SELECT
+            COUNT(*)
+        FROM
+            emp2 e
+        LEFT JOIN
+            dept2 d ON e.deptno = d.deptno
+        <where>
+            <if test="empno != null">
+                AND e.empno = #{empno}
+            </if>
+            <if test="ename != null and ename != ''">
+                AND e.ename LIKE CONCAT('%', #{ename}, '%')
+            </if>
+            <if test="job != null and job != ''">
+                AND e.job = #{job}
+            </if>
+            <if test="dname != null and dname != ''">
+                AND d.dname = #{dname}
+            </if>
+            <if test="startDate != null">
+                AND e.hiredate >= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND e.hiredate &lt;= #{endDate}
+            </if>
+            <if test="bottomSal != null">
+                AND e.sal >= #{bottomSal}
+            </if>
+            <if test="topSal != null">
+                AND e.sal &lt;= #{topSal}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectForExport" resultType="iisi.example.gia.emp2.dto.Emp2ExportDTO">
+        SELECT
+            e.empno, e.ename, e.job, e.hiredate, e.sal, e.comm, e.deptno, d.dname
+        FROM
+            emp2 e
+        JOIN
+            dept2 d ON e.deptno = d.deptno
+        ORDER BY
+            empno
+    </select>
+
+</mapper>

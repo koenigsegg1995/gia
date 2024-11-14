@@ -1,0 +1,140 @@
+<zk>
+    <window title="員工管理系統"
+            apply="org.zkoss.bind.BindComposer"
+            viewModel="@id('vm') @init('iisi.example.gia.vm.EmpManageVM')">
+
+        <!-- 新增員工 -->
+        <button label="新增員工" onClick="@command('showAddDialog')"/>
+
+        <separator/>
+
+        <!-- 查詢條件 -->
+        <grid>
+            <rows>
+                <row>
+                    <label value="員編"/>
+                    <textbox value="@save(vm.empSelectReq.empno)" width="150px"/>
+
+                    <label value="姓名"/>
+                    <textbox value="@save(vm.empSelectReq.ename)" width="150px"/>
+
+                    <label value="職位"/>
+                    <combobox model="@load(vm.jobs)" selectedItem="@save(vm.empSelectReq.job)" width="150px">
+                        <template name="model" var="job">
+                            <comboitem label="@load(job)"/>
+                        </template>
+                    </combobox>
+                </row>
+
+                <row>
+                    <label value="部門"/>
+                    <combobox model="@load(vm.depts)" selectedItem="@save(vm.empSelectReq.dept)" width="150px">
+                        <template name="model" var="dept">
+                            <comboitem label="@load(dept.dname)"/>
+                        </template>
+                    </combobox>
+
+                    <label value="雇用日期"/>
+                    <datebox value="@save(vm.empSelectReq.startDate)" format="yyyy/MM/dd" width="150px"/>
+                    <label value="至"/>
+                    <datebox value="@save(vm.empSelectReq.endDate)" format="yyyy/MM/dd" width="150px"/>
+                </row>
+
+                <row>
+                    <label value="薪資"/>
+                    <decimalbox value="@save(vm.empSelectReq.bottomSal)" width="150px"/>
+                    <label value="至"/>
+                    <decimalbox value="@save(vm.empSelectReq.topSal)" width="150px"/>
+
+                    <hbox pack="end" width="100%">
+                        <button label="查詢" onClick="@command('select')"/>
+                    </hbox>
+                </row>
+            </rows>
+        </grid>
+
+        <separator/>
+
+        <!-- 查詢結果 -->
+        <listbox model="@load(vm.empSelectRes.empSelectRes)">
+            <listhead>
+                <listheader label="員編"/>
+                <listheader label="姓名"/>
+                <listheader label="職位"/>
+                <listheader label="雇用日期"/>
+                <listheader label="部門"/>
+                <listheader label="薪資"/>
+                <listheader label="Operations"/>
+            </listhead>
+
+            <template name="model" var="emp">
+                <listitem>
+                    <listcell label="@load(emp.empno)"/>
+                    <listcell label="@load(emp.ename)"/>
+                    <listcell label="@load(emp.job)"/>
+                    <!-- 日期格式化 -->
+                    <listcell label="@load(emp.hiredate) @converter('formatedDate', format='yyyy年MM月dd日')"/>
+                    <listcell label="@load(emp.dname)"/>
+                    <listcell label="@load(emp.sal)"/>
+                    <listcell>
+                        <!-- 水平排列 -->
+                        <hlayout>
+                            <button label="編輯" onClick="@command('showUpdateDialog', empno=emp.empno)"/>
+                            <button label="刪除" onClick="@command('delete', empno=emp.empno)"/>
+                        </hlayout>
+                    </listcell>
+                </listitem>
+            </template>
+        </listbox>
+
+        <!-- 新增與修改用 -->
+        <window id="editDialog"
+                title="@load(vm.isAdd ? '新增員工' : '修改員工')"
+                visible="@bind(vm.editDialogVisible)"
+                position="center"
+                width="90%"
+                border="normal"
+                mode="modal">
+            <grid>
+                <rows>
+                    <row>
+                        <label value="姓名"/>
+                        <textbox value="@bind(vm.empReq.ename)" width="150px"/>
+
+                        <label value="職位"/>
+                        <combobox model="@load(vm.jobs)" selectedItem="@bind(vm.empReq.job)" width="150px">
+                            <template name="model" var="job">
+                                <comboitem label="@load(job)"/>
+                            </template>
+                        </combobox>
+
+                        <label value="雇用日期"/>
+                        <datebox value="@bind(vm.empReq.hiredate)" format="yyyy/MM/dd" width="150px"/>
+                    </row>
+
+                    <row>
+                        <label value="薪水"/>
+                        <decimalbox value="@bind(vm.empReq.sal)" width="150px"/>
+
+                        <label value="獎金"/>
+                        <decimalbox value="@bind(vm.empReq.comm)" width="150px"/>
+
+                        <label value="部門"/>
+                        <combobox model="@load(vm.depts)" selectedItem="@bind(vm.empReq.dept)" width="150px">
+                            <template name="model" var="dept">
+                                <comboitem label="@load(dept.dname)"/>
+                            </template>
+                        </combobox>
+                    </row>
+                </rows>
+            </grid>
+
+            <separator/>
+
+            <hbox pack="end" width="100%">
+                <button label="取消" onClick="@command('closeEditDialog')"/>
+                <button label="確定" onClick="@command('saveEdit')"/>
+            </hbox>
+        </window>
+    </window>
+</zk>

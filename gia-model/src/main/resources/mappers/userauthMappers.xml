@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 對應持久層的介面 -->
+<mapper namespace="iisi.example.gia.userauth.dao.UserAuthDAO">
+<!--    <insert id="insert" parameterType="iisi.example.gia.userauth.entity.UserAuthDO">-->
+<!--        INSERT INTO userAuth (-->
+<!--            empno, username, password, role-->
+<!--        )-->
+<!--        VALUES (-->
+<!--            #{empno}, #{username}, #{password}, #{role}-->
+<!--        )-->
+<!--    </insert>-->
+
+<!--    <delete id="delete" parameterType="empno">-->
+<!--        DELETE FROM-->
+<!--            userAuth-->
+<!--        WHERE-->
+<!--            empno = #{empno}-->
+<!--    </delete>-->
+
+<!--    <update id="update" parameterType="iisi.example.gia.userauth.entity.UserAuthDO">-->
+<!--        UPDATE-->
+<!--            userAuth-->
+<!--        SET-->
+<!--            username = #{username}, password = #{password}, role = #{role}-->
+<!--        WHERE-->
+<!--            empno = #{empno}-->
+<!--    </update>-->
+
+    <select id="findByUsername" parameterType="string" resultType="iisi.example.gia.userauth.entity.UserAuthDO">
+        SELECT
+            *
+        FROM userAuth
+        WHERE
+            username = #{username}
+    </select>
+
+<!--    <select id="selectAll" resultType="iisi.example.gia.userauth.entity.UserAuthDO">-->
+<!--        SELECT-->
+<!--            *-->
+<!--        FROM userAuth-->
+<!--        ORDER BY-->
+<!--            empno-->
+<!--    </select>-->
+</mapper>
