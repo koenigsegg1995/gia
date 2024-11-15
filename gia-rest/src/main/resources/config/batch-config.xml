@@ -29,13 +29,7 @@
         <!-- 指定要執行的 Mapper 方法的完整路徑 -->
         <property name="queryId" value="iisi.example.gia.emp2.dao.Emp2DAO.selectForExport"/>
         <!-- 設定每次讀取的筆數 -->
-        <property name="pageSize" value="20"/>
-        <!-- 設定分頁參數 -->
-        <property name="parameterValues">
-            <map>
-                <entry key="_page" value="empno"/>
-            </map>
-        </property>
+        <property name="pageSize" value="10"/>
     </bean>
 
     <!-- 定義 processor -->

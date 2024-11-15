@@ -132,6 +132,8 @@
             dept2 d ON e.deptno = d.deptno
         ORDER BY
             empno
+        LIMIT
+            #{_skiprows}, #{_pagesize}
     </select>
 
 </mapper>

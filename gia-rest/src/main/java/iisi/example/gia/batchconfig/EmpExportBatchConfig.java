@@ -4,6 +4,7 @@ import iisi.example.gia.emp2.dto.Emp2ExportDTO;
 import iisi.example.gia.emp2.view.Emp2ExportVO;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
+import org.mybatis.spring.batch.builder.MyBatisPagingItemReaderBuilder;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -21,6 +22,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,17 +41,11 @@ public class EmpExportBatchConfig {
     @Bean
     @StepScope
     public MyBatisPagingItemReader<Emp2ExportDTO> empReader(SqlSessionFactory sqlSessionFactory){
-        MyBatisPagingItemReader<Emp2ExportDTO> reader = new MyBatisPagingItemReader<Emp2ExportDTO>();
-        reader.setSqlSessionFactory(sqlSessionFactory);
-        reader.setQueryId("iisi.example.gia.emp2.dao.Emp2DAO.selectForExport"); // DAO 方法名
-        reader.setPageSize(20); // 每次讀取的資料量
-
-        // 設定分頁排序參數
-        Map<String, Object> parameterValues = new HashMap<String, Object>();
-        parameterValues.put("_page", "empno"); // 使用 empno 作為排序欄位
-        reader.setParameterValues(parameterValues);
-
-        return reader;
+        return new MyBatisPagingItemReaderBuilder<Emp2ExportDTO>()
+                .sqlSessionFactory(sqlSessionFactory)
+                .queryId("iisi.example.gia.emp2.dao.Emp2DAO.selectForExport")
+                .pageSize(10)
+                .build();
     }
 
     @Bean
