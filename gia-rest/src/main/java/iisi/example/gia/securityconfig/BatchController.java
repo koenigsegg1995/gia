@@ -1,4 +1,4 @@
-package iisi.example.gia.batchconfig;
+package iisi.example.gia.securityconfig;
 
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package iisi.example.gia.batchconfig;
+package iisi.example.gia.securityconfig;
 
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.context.annotation.Configuration;

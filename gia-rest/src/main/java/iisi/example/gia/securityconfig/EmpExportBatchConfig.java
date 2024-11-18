@@ -1,4 +1,4 @@
-package iisi.example.gia.batchconfig;
+package iisi.example.gia.securityconfig;
 
 import iisi.example.gia.emp2.dto.Emp2ExportDTO;
 import iisi.example.gia.emp2.view.Emp2ExportVO;
@@ -22,9 +22,6 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
 @EnableBatchProcessing
