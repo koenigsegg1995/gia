@@ -1,4 +1,4 @@
-package iisi.example.gia.batchconfig;
+package iisi.example.gia.securityconfig;
 
 public class BatchConstants {
 
