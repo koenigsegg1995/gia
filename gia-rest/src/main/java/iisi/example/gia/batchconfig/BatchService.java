@@ -1,4 +1,4 @@
-package iisi.example.gia.securityconfig;
+package iisi.example.gia.batchconfig;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;

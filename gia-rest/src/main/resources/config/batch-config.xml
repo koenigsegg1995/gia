@@ -64,7 +64,7 @@
 
         <!-- 設定 CSV 表頭 -->
         <property name="headerCallback">
-            <bean class="iisi.example.gia.securityconfig.ExportFlatFileHeaderCallbackImpl">
+            <bean class="iisi.example.gia.batchconfig.ExportFlatFileHeaderCallbackImpl">
                 <property name="header" value="員工編號,員工姓名,職位,到職日,薪資,獎金,部門編號,部門名稱"/>
             </bean>
         </property>

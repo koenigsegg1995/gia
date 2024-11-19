@@ -1,4 +1,4 @@
-package iisi.example.gia.securityconfig;
+package iisi.example.gia.batchconfig;
 
 import iisi.example.gia.emp2.dto.Emp2ExportDTO;
 import iisi.example.gia.emp2.view.Emp2ExportVO;
