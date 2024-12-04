@@ -4,6 +4,8 @@ import iisi.example.gia.dept2.dto.Dept2InfoDTO;
 import iisi.example.gia.dept2.service.Dept2Service;
 import iisi.example.gia.emp2.dto.*;
 import iisi.example.gia.emp2.service.Emp2Service;
+import lombok.Getter;
+import lombok.Setter;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.*;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;

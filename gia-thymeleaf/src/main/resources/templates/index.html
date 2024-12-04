@@ -61,11 +61,19 @@
                     員編
                     <input th:field="*{empno}" placeholder="請輸入">
                 </label>
+                <span th:if="${#fields.hasErrors('empno')}"
+                      th:errors="*{empno}"
+                      style="color: red;">
+                </span>
 
                 <label>
                     姓名
                     <input th:field="*{ename}" placeholder="請輸入">
                 </label>
+                <span th:if="${#fields.hasErrors('ename')}"
+                      th:errors="*{ename}"
+                      style="color: red;">
+                </span>
 
                 <label>
                     職位
@@ -106,10 +114,18 @@
                     薪資
                     <input th:field="*{bottomSal}">
                 </label>
+                <span th:if="${#fields.hasErrors('bottomSal')}"
+                      th:errors="*{bottomSal}"
+                      style="color: red;">
+                </span>
                 <span>-</span>
                 <label>
                     <input th:field="*{topSal}">
                 </label>
+                <span th:if="${#fields.hasErrors('topSal')}"
+                      th:errors="*{topSal}"
+                      style="color: red;">
+                </span>
 
                 <span>
                     <button type="submit">查詢</button>
@@ -172,7 +188,7 @@
                     <input type="hidden" th:field="*{page}">
                 </div>
                 
-                <button th:if="${empSelectResVO.pageInfo.page > 1}" type="submit" name="pageActions" value="prev">上一頁</button>                
+                <button th:if="${empSelectResVO.pageInfo.page > 1}" type="submit" name="pageActions" value="prev">上一頁</button>
                 
                 <button th:if="${empSelectResVO.pageInfo.page < empSelectResVO.pageInfo.totalPages}" type="submit" name="pageActions" value="next">下一頁</button>
             </div>
