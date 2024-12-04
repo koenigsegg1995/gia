@@ -7,10 +7,13 @@ import iisi.example.gia.emp2.view.Emp2AddReq;
 import iisi.example.gia.emp2.view.Emp2ComplexSelectReq;
 import iisi.example.gia.emp2.view.Emp2ComplexSelectResVO;
 import iisi.example.gia.emp2.view.Emp2UpdateReq;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -113,7 +116,26 @@ public class Emp2Controller {
 
     // 送出查詢
     @PostMapping("selectEmp")
-    public String selectEmp(@ModelAttribute Emp2ComplexSelectReq empSelectReq, @RequestParam(name = "pageActions", required = false) String pageActions, ModelMap model){
+    public String selectEmp(@Valid @ModelAttribute Emp2ComplexSelectReq empSelectReq,
+                            BindingResult bindingResult,
+                            @RequestParam(name = "pageActions", required = false) String pageActions,
+                            ModelMap model,
+                            HttpSession session){
+
+        // 錯誤驗證
+        if(bindingResult.hasErrors()){
+            // 保留查詢條件
+            model.addAttribute("empSelectReq", empSelectReq);
+
+            // 保留錯誤資訊
+            model.addAttribute("org.springframework.validation.BindingResult.empSelectReq", bindingResult);
+
+            // 顯示最近查詢結果
+            model.addAttribute("empSelectResVO", session.getAttribute("lastSelect"));
+
+            return "index";
+        }
+
         // 處理上下頁設定
         if("prev".equals(pageActions)) {
             empSelectReq.setPage(empSelectReq.getPage() - 1);
@@ -143,6 +165,9 @@ public class Emp2Controller {
 
         empSelecResVO.setEmpSelectRes(empSelectViewDTO.getEmpSelectRes());
         empSelecResVO.setPageInfo(empSelectViewDTO.getPageInfo());
+
+        // 保存最近查詢結果
+        session.setAttribute("lastSelect", empSelecResVO);
 
         // 預設無條件查詢，顯示所有員工
         model.addAttribute("empSelectResVO", empSelecResVO);

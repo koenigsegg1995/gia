@@ -6,6 +6,7 @@ import iisi.example.gia.emp2.dto.Emp2ComplexSelectViewDTO;
 import iisi.example.gia.emp2.service.Emp2Service;
 import iisi.example.gia.emp2.view.Emp2ComplexSelectReq;
 import iisi.example.gia.emp2.view.Emp2ComplexSelectResVO;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ public class IndexController {
 
     /*************** 導向主頁 *************/
     @GetMapping("/")
-    public String index(ModelMap model, Authentication authentication){
+    public String index(ModelMap model, Authentication authentication, HttpSession session){
         // 用戶資訊加入 model
         if(authentication != null){
             model.addAttribute("username", authentication.getName());
@@ -42,26 +43,19 @@ public class IndexController {
 
         // 包裝 DTO 給 Service 用
         Emp2ComplexSelectReqDTO empComplexSelectReqDTO = new Emp2ComplexSelectReqDTO();
-        empComplexSelectReqDTO.setEmpno(empSelectReq.getEmpno());
-        empComplexSelectReqDTO.setEname(empSelectReq.getEname());
-        empComplexSelectReqDTO.setJob(empSelectReq.getJob());
-        empComplexSelectReqDTO.setDname(empSelectReq.getDname());
-        empComplexSelectReqDTO.setStartDate(empSelectReq.getStartDate());
-        empComplexSelectReqDTO.setEndDate(empSelectReq.getEndDate());
-        empComplexSelectReqDTO.setBottomSal(empSelectReq.getBottomSal());
-        empComplexSelectReqDTO.setTopSal(empSelectReq.getTopSal());
-        empComplexSelectReqDTO.setPage(empSelectReq.getPage());
-        empComplexSelectReqDTO.setLimit(empSelectReq.getLimit());
 
         // 包裝 VO 提供前端
         Emp2ComplexSelectViewDTO empSelectViewDTO = emp2Service.selectEmps(empComplexSelectReqDTO);
-        Emp2ComplexSelectResVO empSelecResVO = new Emp2ComplexSelectResVO();
+        Emp2ComplexSelectResVO empSelectResVO = new Emp2ComplexSelectResVO();
 
-        empSelecResVO.setEmpSelectRes(empSelectViewDTO.getEmpSelectRes());
-        empSelecResVO.setPageInfo(empSelectViewDTO.getPageInfo());
+        empSelectResVO.setEmpSelectRes(empSelectViewDTO.getEmpSelectRes());
+        empSelectResVO.setPageInfo(empSelectViewDTO.getPageInfo());
+
+        // 保存最近一次查詢結果
+        session.setAttribute("lastSelect", empSelectResVO);
 
         // 預設無條件查詢，顯示所有員工
-        model.addAttribute("empSelectResVO", empSelecResVO);
+        model.addAttribute("empSelectResVO", empSelectResVO);
 
         return "index";
     }

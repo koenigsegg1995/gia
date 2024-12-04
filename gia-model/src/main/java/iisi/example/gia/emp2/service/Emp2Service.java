@@ -96,19 +96,11 @@ public class Emp2Service {
         }
 
         if(empComplexSelectReqDTO.getStartDate() != null){
-            if(empComplexSelectReqDTO.getStartDate().toString().trim().isEmpty()){
-                empComplexSelectDTO.setStartDate(null);
-            }else {
-                empComplexSelectDTO.setStartDate(new java.sql.Date(empComplexSelectReqDTO.getStartDate().getTime()));
-            }
+            empComplexSelectDTO.setStartDate(new java.sql.Date(empComplexSelectReqDTO.getStartDate().getTime()));
         }
 
         if(empComplexSelectReqDTO.getEndDate() != null){
-            if(empComplexSelectReqDTO.getEndDate().toString().trim().isEmpty()){
-                empComplexSelectDTO.setEndDate(null);
-            }else{
-                empComplexSelectDTO.setEndDate(new java.sql.Date(empComplexSelectReqDTO.getEndDate().getTime()));
-            }
+            empComplexSelectDTO.setEndDate(new java.sql.Date(empComplexSelectReqDTO.getEndDate().getTime()));
         }
 
         if(empComplexSelectReqDTO.getBottomSal() != null){
